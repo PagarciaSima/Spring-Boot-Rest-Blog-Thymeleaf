@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="admin/header :: header"></div>
+<body>
+
+<div th:replace="admin/header :: navbar"></div>
+  <div class="container">
+      <div class="row">
+          <h1>List Blog Posts</h1>
+      </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                <form class="form-inline" th:action="@{/admin/posts/search}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="query" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit"> Search</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+      <br />
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="table-dark">
+          <th style="width:10%">#</th>
+          <th style="width:20%" >Post Title</th>
+          <th style="width:30%" >Post Short Description</th>
+          <th style="width:20%">Post Created On</th>
+          <th style="width:20%" >Actions</th>
+      </thead>
+      <tbody>
+          <tr th:each = "post, postStat : ${posts}">
+              <td th:text="${postStat.count}">1</td>
+              <td th:text="${post.title}">post title</td>
+              <td th:text="${post.shortDescription}">post short description</td>
+              <td th:text="${#temporals.format(post.createdOn,'dd MMM yyyy')}">10 JUL 2022</td>
+              <td>
+                  <a th:href="@{/admin/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary"> Edit</a>
+                  <a th:href="@{/admin/posts/{postId}/delete(postId=${post.id})}" class="btn btn-danger">Delete</a>
+                  <a th:href="@{/admin/posts/{postUrl}/view(postUrl=${post.url})}" class="btn btn-info">View</a>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+<br /><br />
+<div th:replace="admin/footer :: footer"></div>
+</body>
+</html>
